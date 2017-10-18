@@ -1,6 +1,7 @@
 package com.coolweather.android.gson;
 
 /**
+ * 天气质量实况
  * Created by AlanShelby on 2017/10/17.
  */
 

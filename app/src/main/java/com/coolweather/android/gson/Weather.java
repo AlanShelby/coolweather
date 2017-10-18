@@ -14,6 +14,8 @@ public class Weather {
 
     public Basic basic;
 
+    public Alarms alarms;
+
     public AQI aqi;
 
     public Now now;
@@ -22,5 +24,8 @@ public class Weather {
 
     @SerializedName("daily_forecast")
     public List<Forecast> forecastList;
+
+    @SerializedName("hourly_forecast")
+    public List<HourlyForecast> hourlyForecastList;
 
 }

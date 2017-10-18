@@ -10,6 +10,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,12 +24,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.coolweather.android.gson.Forecast;
+import com.coolweather.android.gson.HourlyForecast;
 import com.coolweather.android.gson.Weather;
 import com.coolweather.android.service.AutoUpdateService;
 import com.coolweather.android.utils.HttpUtil;
 import com.coolweather.android.utils.Utility;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -63,6 +69,8 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView carWashText;
 
     private TextView sportText;
+
+    private List<HourlyForecast> forecastList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +212,18 @@ public class WeatherActivity extends AppCompatActivity {
         comfortText.setText(comfort);
         carWashText.setText(carWash);
         sportText.setText(sport);
+        // 小时预报
+        forecastList.clear();
+        for (HourlyForecast item : weather.hourlyForecastList) {
+            forecastList.add(new HourlyForecast(item.getTemperature() + "℃", item.date.substring(10, 13) + "时"));
+        }
+        RecyclerView hourlyRecyclerView = (RecyclerView) findViewById(R.id.hourly_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        hourlyRecyclerView.setLayoutManager(layoutManager);
+        ForecastAdapter adapter = new ForecastAdapter(forecastList);
+        hourlyRecyclerView.setAdapter(adapter);
+
         weatherLayout.setVisibility(View.VISIBLE);
         Intent intent = new Intent(this, AutoUpdateService.class);
         startService(intent);

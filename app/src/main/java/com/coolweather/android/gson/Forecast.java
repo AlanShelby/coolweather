@@ -3,6 +3,7 @@ package com.coolweather.android.gson;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * 预报
  * Created by AlanShelby on 2017/10/17.
  */
 
